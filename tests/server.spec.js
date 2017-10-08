@@ -1,6 +1,19 @@
 const test = require('ava')
 const server = require('../server')
 
+test('default route', (t) => {
+  const request = {
+    method: 'GET',
+    url: '/',
+  }
+
+  return server.inject(request)
+    .then(({ payload, statusCode }) => {
+      t.is(statusCode, 200, 'statusCode is 200')
+      t.is(payload, 'Whatstatus is running!', 'Message response is ok')
+    })
+})
+
 test('allowed status code 200 | method GET', (t) => {
   const request = {
     method: 'GET',

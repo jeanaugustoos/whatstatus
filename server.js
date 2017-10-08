@@ -8,25 +8,34 @@ server.connection({
   port: process.env.PORT || '8080',
 })
 
-server.route({
-  method: '*',
-  path: '/{status}',
-  handler: (request, reply) => {
-    const { params: { status } } = request
-    reply().code(status)
+server.route([
+  {
+    method: 'GET',
+    path: '/',
+    handler: (request, reply) => {
+      reply('Whatstatus is running!')
+    },
   },
-  config: {
-    validate: {
-      params: {
-        status: Joi
-          .number()
-          .valid(allowedStatusCode)
-          .required()
-          .error(new Error('Invalid status code')),
+  {
+    method: '*',
+    path: '/{status}',
+    handler: (request, reply) => {
+      const { params: { status } } = request
+      reply().code(status)
+    },
+    config: {
+      validate: {
+        params: {
+          status: Joi
+            .number()
+            .valid(allowedStatusCode)
+            .required()
+            .error(new Error('Invalid status code')),
+        },
       },
     },
   },
-})
+])
 
 if (!module.parent) {
   server.start((err) => {
