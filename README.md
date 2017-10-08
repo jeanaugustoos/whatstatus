@@ -1,4 +1,5 @@
 # whatstatus
+[![Build Status](https://travis-ci.org/jeanaugustoos/whatstat.svg?branch=master)](https://travis-ci.org/jeanaugustoos/whatstat)
 
 :pineapple: A service to respond http status as you wish
 
