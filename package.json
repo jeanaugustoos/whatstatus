@@ -1,0 +1,24 @@
+{
+  "name": "whatstat",
+  "version": "1.0.0",
+  "description": "A service to respond to http status as you wish",
+  "main": "server.js",
+  "scripts": {
+    "lint": "eslint server.js",
+    "test": "nyc ava --verbose --serial tests/**/*.spec.js"
+  },
+  "repository": "https://github.com/jeanaugustoos/whatstat",
+  "author": "Jean Augusto Silva <jeanaugustoos@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "hapi": "^16.6.2",
+    "joi": "^11.2.0"
+  },
+  "devDependencies": {
+    "ava": "^0.22.0",
+    "eslint": "^4.8.0",
+    "eslint-config-airbnb-base": "^12.0.2",
+    "eslint-plugin-import": "^2.7.0",
+    "nyc": "^11.2.1"
+  }
+}
