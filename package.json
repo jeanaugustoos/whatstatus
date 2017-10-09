@@ -4,21 +4,27 @@
   "description": "A service to respond to http status as you wish",
   "main": "server.js",
   "scripts": {
+    "preinstall": "npm install pm2 -g",
     "lint": "eslint server.js",
-    "test": "nyc ava --verbose --serial tests/**/*.spec.js"
+    "test": "nyc ava --verbose --serial tests/**/*.spec.js",
+    "start": "pm2 start server.js -i max --attach",
+    "start:dev": "nodemon server.js",
+    "prepush": "yarn lint && yarn test"
   },
   "repository": "https://github.com/jeanaugustoos/whatstat",
   "author": "Jean Augusto Silva <jeanaugustoos@gmail.com>",
   "license": "MIT",
   "dependencies": {
     "hapi": "^16.6.2",
-    "joi": "^11.2.0"
+    "joi": "^11.2.0",
+    "pm2": "^2.7.1"
   },
   "devDependencies": {
     "ava": "^0.22.0",
     "eslint": "^4.8.0",
     "eslint-config-airbnb-base": "^12.0.2",
     "eslint-plugin-import": "^2.7.0",
+    "nodemon": "^1.12.1",
     "nyc": "^11.2.1"
   }
 }
