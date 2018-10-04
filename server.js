@@ -1,7 +1,8 @@
 const Hapi = require('hapi')
 const Joi = require('joi')
+const { STATUS_CODES } = require('http')
 
-const allowedStatusCode = require('./configs/httpStatusCodes')
+const allowedStatusCode = Object.keys(STATUS_CODES).map(Number)
 
 const server = new Hapi.Server()
 server.connection({
