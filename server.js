@@ -1,52 +1,33 @@
-const Hapi = require('hapi')
-const Joi = require('joi')
-const { STATUS_CODES } = require('http')
+const express = require('express')
+const Joi = require('@hapi/joi')
+const Bluebird = require('bluebird')
+const schema = require('./schema')
 
-const allowedStatusCode = Object.keys(STATUS_CODES).map(Number)
+const app = express()
 
-const server = new Hapi.Server()
-server.connection({
-  port: process.env.PORT || '8080',
+app.use(express.json())
+
+app.get('/', (_, response) => response.json({ status: 'ok' }))
+
+app.all('/:status', async (request, response) => {
+  try {
+  const { value, error } = schema.validate(request, { allowUnknown: true })
+
+  if (error) {
+    return response.status(400).send(error.details)
+  }
+  const sleep = request.query.sleep || 0
+  const status = request.params.status
+
+  await Bluebird.delay(sleep)
+
+  return response.status(status).send({})
+  } catch (error) {
+    console.log(error.message)
+    return response.status(500).send({ message: 'Internal server error' })
+  }
 })
 
-server.route([
-  {
-    method: 'GET',
-    path: '/',
-    handler: (request, reply) => {
-      reply('Whatstatus is running!')
-    },
-  },
-  {
-    method: '*',
-    path: '/{status}',
-    handler: (request, reply) => {
-      const { params: { status } } = request
-      reply().code(status)
-    },
-    config: {
-      validate: {
-        params: {
-          status: Joi
-            .number()
-            .valid(allowedStatusCode)
-            .required()
-            .error(new Error('Invalid status code')),
-        },
-      },
-    },
-  },
-])
-
-if (!module.parent) {
-  server.start((err) => {
-    if (err) {
-      throw err
-    }
-
-    console.log(`Server running at ${server.info.uri}`)
-  })
-}
-
-module.exports = server
-
+app.listen(process.env.PORT || 3000, () => {
+  console.log('Server running')
+})
