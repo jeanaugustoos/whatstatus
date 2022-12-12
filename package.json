@@ -14,7 +14,7 @@
   "dependencies": {
     "@hapi/joi": "17.1.1",
     "bluebird": "^3.7.2",
-    "express": "4.17.1"
+    "express": "4.17.3"
   },
   "devDependencies": {
     "ava": "3.8.2"
